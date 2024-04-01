@@ -11,10 +11,10 @@ const App = ({ Component, pageProps }) => (
         <nav>
           <ul className="flex gap-4 underline-offset-auto">
             <li>
-              <Link href="add">Liste</Link>
+              <Link href="list">Liste</Link>
             </li>
             <li>
-              <Link href="list">Ajout</Link>
+              <Link href="/places/create">Ajout</Link>
             </li>
           </ul>
         </nav>
