@@ -1,13 +1,14 @@
 import { Button } from "@/components/Button"
 import { Form } from "@/components/Form"
 import { FormField } from "@/components/FormField"
-import { placesTypeValidator, placesNameValidator,  } from "@/validators"
 import axios from "axios"
 import { Formik } from "formik"
 import * as yup from "yup"
+import { Field } from "formik"
+import { stringValidator } from "@/validators"
 
 const initialValues = {
-  placesType: ["restaurant", "museum", "bar", "park", "art"],
+  placesType: ["Restaurant", "Museum", "Bar", "Park", "Art"],
   placesName: "",
   placesAddress: "",
   placesCity: "",
@@ -15,12 +16,12 @@ const initialValues = {
   placesCountry: "",
 }
 const validationSchema = yup.object({
-  placesType: placesTypeValidator,
-  placesName: placesNameValidator,
-  placesAddress: placesTypeValidator,
-  placesCity: placesTypeValidator,
-  placesZipCode: placesTypeValidator,
-  placesCountry: placesTypeValidator,
+  placesType: stringValidator,
+  placesName: stringValidator,
+  placesAddress: number().string().min(3).required().integer(),
+  placesCity: stringValidator,
+  placesZipCode: number().min(5).required().positive().integer(),
+  placesCountry: stringValidator,
 })
 const CreatePlacesPage = () => {
   const handleSubmit = async ({ placesType, placesName, placesAddress, placesCity, placesZipCode, placesCountry }, { resetForm }) => {
@@ -38,19 +39,19 @@ const CreatePlacesPage = () => {
 
   return (
     <div>
-      <h1 className=" py-2">Ajoutez une places</h1>
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}>
 
-      <Form>
-        <FormField
-          label="Type de place"
-          name="placesType"
-          placeholder="Type de place"
-          type="text"
-          />
+        <Form>
+          Choisissez le type de d'endroit : 
+          {initialValues.placesType.map((type) => (
+            <label key={type} className="mr-2">
+            <Field type="radio" name="placesType" value={type} className=" mr-2" />
+              {type}
+          </label>
+          ))}
         <FormField
           label="Nom de l'établissement"
           name="placesName"
