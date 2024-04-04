@@ -1,51 +1,90 @@
 import { Button } from "@/components/Button"
 import { Form } from "@/components/Form"
 import { FormField } from "@/components/FormField"
-import { descriptionValidator, isDoneValidator } from "@/validators"
+import { placesTypeValidator, placesNameValidator,  } from "@/validators"
 import axios from "axios"
 import { Formik } from "formik"
 import * as yup from "yup"
 
 const initialValues = {
-  description: "",
-  isDone: false,
+  placesType: ["restaurant", "museum", "bar", "park", "art"],
+  placesName: "",
+  placesAddress: "",
+  placesCity: "",
+  placesZipCode: "",
+  placesCountry: "",
 }
 const validationSchema = yup.object({
-  description: descriptionValidator,
-  isDone: isDoneValidator,
+  placesType: placesTypeValidator,
+  placesName: placesNameValidator,
+  placesAddress: placesTypeValidator,
+  placesCity: placesTypeValidator,
+  placesZipCode: placesTypeValidator,
+  placesCountry: placesTypeValidator,
 })
 const CreatePlacesPage = () => {
-  const handleSubmit = async ({ description, isDone }, { resetForm }) => {
+  const handleSubmit = async ({ placesType, placesName, placesAddress, placesCity, placesZipCode, placesCountry }, { resetForm }) => {
     await axios.post("http://localhost:3000/api/places", {
-      description,
-      isDone,
+      placesType,
+      placesName,
+      placesAddress,
+      placesCity,
+      placesZipCode,
+      placesCountry,
     })
 
     resetForm()
   }
 
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-      validationSchema={validationSchema}
-    >
+    <div>
+      <h1 className=" py-2">Ajoutez une places</h1>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={validationSchema}>
+
       <Form>
         <FormField
-          name="placesTypes"
-          placeholder="Enter a description"
-          label="Description"
-        />
+          label="Type de place"
+          name="placesType"
+          placeholder="Type de place"
+          type="text"
+          />
         <FormField
-          className="items-center flex-row"
-          name="isDone"
-          type="checkbox"
-          label="Done?"
-        />
-        <Button type="submit">Create</Button>
+          label="Nom de l'établissement"
+          name="placesName"
+          placeholder="Nom de la place"
+          type="text"
+          />
+        <FormField
+          label="Adresse de la place"
+          name="placesAddress"
+          placeholder="Adresse de la place"
+          type="text"
+          />
+        <FormField
+          label="Ville"
+          name="placesCity"
+          placeholder="Ville de la place"
+          type="text"
+          />
+        <FormField
+          label="Code postal"
+          name="placesZipCode"
+          placeholder="Code postal"
+          type="text"
+          />
+        <FormField
+          label="Pays"
+          name="placesCountry"
+          placeholder="Pays"
+          type="text"
+          />
+        <Button type="submit">Créer</Button>
       </Form>
     </Formik>
+  </div>
   )
 }
-
-export default CreatePlacesPage
+export default CreatePlacesPage;

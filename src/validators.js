@@ -1,12 +1,13 @@
 import * as yup from "yup";
 
-export const descriptionValidator = yup
+export const placesTypeValidator = yup
   .string()
   .min(3)
   .required()
-  .label("Description");
-export const isDoneValidator = yup
-  .boolean()
-  .default(false)
+  .label("placesType");
+
+export const placesZipCodeValidator = yup
+  .number()
+  .min(5)
   .required()
-  .label("Done");
+  .label("placesZipCode");

@@ -12,6 +12,7 @@ export const FormField = ({
   <label className={twMerge(clsx("flex flex-col gap-2", className))}>
     <span>{label}</span>
     <Field
+      
       name={name}
       className="border-2 focus:border-indigo-400 outline-none px-3 py-2"
       placeholder={placeholder || label}
