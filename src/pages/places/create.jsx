@@ -59,15 +59,15 @@ const CreatePlacesPage = () => {
           type="text"
           />
         <FormField
-          label="Adresse de la place"
+          label="Adresse"
           name="placesAddress"
-          placeholder="Adresse de la place"
+          placeholder="Adresse"
           type="text"
           />
         <FormField
           label="Ville"
           name="placesCity"
-          placeholder="Ville de la place"
+          placeholder="Ville"
           type="text"
           />
         <FormField
