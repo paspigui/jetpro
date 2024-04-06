@@ -5,7 +5,7 @@ import axios from "axios"
 import { Formik } from "formik"
 import * as yup from "yup"
 import { Field } from "formik"
-import { stringValidator } from "@/validators"
+import { numberValidator, stringValidator } from "@/validators"
 
 const initialValues = {
   placesType: ["Restaurant", "Museum", "Bar", "Park", "Art"],
@@ -18,9 +18,9 @@ const initialValues = {
 const validationSchema = yup.object({
   placesType: stringValidator,
   placesName: stringValidator,
-  placesAddress: number().string().min(3).required().integer(),
+  placesAddress: stringValidator,
   placesCity: stringValidator,
-  placesZipCode: number().min(5).required().positive().integer(),
+  placesZipCode: numberValidator,
   placesCountry: stringValidator,
 })
 const CreatePlacesPage = () => {
@@ -48,7 +48,7 @@ const CreatePlacesPage = () => {
           Choisissez le type de d'endroit : 
           {initialValues.placesType.map((type) => (
             <label key={type} className="mr-2">
-            <Field type="radio" name="placesType" value={type} className=" mr-2" />
+            <Field type="radio" name="placesType" value={type} className="mr-2" />
               {type}
           </label>
           ))}
@@ -74,7 +74,7 @@ const CreatePlacesPage = () => {
           label="Code postal"
           name="placesZipCode"
           placeholder="Code postal"
-          type="text"
+          type="integer"
           />
         <FormField
           label="Pays"

@@ -23,7 +23,10 @@ const App = ({ Component, pageProps }) => (
         <nav>
           <ul className="flex gap-4 underline-offset-auto">
             <li>
-              <Link href="list" className="no-underline hover:underline">
+              <Link
+                href="/places/list"
+                className="no-underline hover:underline"
+              >
                 Liste
               </Link>
             </li>
