@@ -5,7 +5,7 @@ import Image from "next/image";
 const App = ({ Component, pageProps }) => (
   <main className="flex flex-col">
     <header className="border-b-2 border-b-stone-200 bg-stone-100">
-      <div className="mx-auto max-w-5xl p-4 flex justify-between items-center">
+      <div className="p-4 flex justify-between items-center">
         <Link
           href="/"
           className="no-underline hover:underline flex items-center gap-2"

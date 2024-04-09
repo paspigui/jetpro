@@ -64,17 +64,17 @@ const CreatePlacesPage = () => {
           placeholder="Adresse"
           type="text"
           />
+          <FormField
+            label="Code postal"
+            name="placesZipCode"
+            placeholder="Code postal"
+            type="integer"
+            />
         <FormField
           label="Ville"
           name="placesCity"
           placeholder="Ville"
           type="text"
-          />
-        <FormField
-          label="Code postal"
-          name="placesZipCode"
-          placeholder="Code postal"
-          type="integer"
           />
         <FormField
           label="Pays"
