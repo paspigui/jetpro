@@ -1,6 +1,6 @@
-import clsx from "clsx"
-import { ErrorMessage, Field } from "formik"
-import { twMerge } from "tailwind-merge"
+import clsx from "clsx";
+import { ErrorMessage, Field } from "formik";
+import { twMerge } from "tailwind-merge";
 
 export const FormField = ({
   className,
@@ -12,7 +12,6 @@ export const FormField = ({
   <label className={twMerge(clsx("flex flex-col gap-2", className))}>
     <span>{label}</span>
     <Field
-      
       name={name}
       className="border-2 focus:border-indigo-400 outline-none px-3 py-2"
       placeholder={placeholder || label}
@@ -24,4 +23,4 @@ export const FormField = ({
       name={name}
     />
   </label>
-)
+);

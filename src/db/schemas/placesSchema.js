@@ -30,8 +30,12 @@ export const placesSchema = new Schema({
       type: integer,
       required: true,
     },
+    isFree: {
+      type: Boolean,
+      required: true,
+    },
     price: {
-      type: integer,
+      type: Number,
       required: true,
     },
   },
