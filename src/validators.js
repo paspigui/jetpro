@@ -1,12 +1,24 @@
-// import { validateYupSchema } from "formik";
 import * as yup from "yup";
 
 export const stringValidator = yup
   .string()
-  .min(2, "Ce champ doit contenir au moins 2 caractères")
+  .min(5, "Ce champ doit contenir au moins 5 caractères")
   .required("Ce champ est requis");
 
 export const numberValidator = yup
   .number()
-  .min(1000, "Au moins 5 chiffres")
+  .typeError("Ce champ doit être un nombre")
+  .min(1, "Ce champ doit contenir au moins 1 caractère")
   .required("Ce champ est requis");
+
+export const isFreeValidator = yup.boolean().required().default(true);
+
+export const priceValidator = yup.number().required("Ce champ est requis");
+
+export const addressValidator = yup.object().shape({
+  number: numberValidator,
+  street: stringValidator,
+  city: stringValidator,
+  country: stringValidator,
+  zipCode: stringValidator,
+});

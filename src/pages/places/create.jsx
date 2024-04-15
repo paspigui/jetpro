@@ -5,34 +5,38 @@ import axios from "axios";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Field } from "formik";
-import { numberValidator, priceValidator, stringValidator } from "@/validators";
+import {
+  stringValidator,
+  isFreeValidator,
+  addressValidator,
+  selectValidator,
+  museumTypesValidator,
+} from "@/validators";
 
 const initialValues = {
-  placesType: ["Restaurant", "Museum", "Bar", "Park"],
+  placesType: "",
   placesName: "",
-  placesAddress: "",
+  placesAddress: {
+    number: "",
+    street: "",
+    city: "",
+    country: "",
+  },
   placesZipCode: "",
-  placesCity: "",
-  placesCountry: "",
-  isFree: ["true", "false"],
-  parkAccess: ["Public", "Privé"],
-  museumTypes: ["Histoire", "Art", "Science", "Ethnographie", "Autre"],
-  artTypes: ["Peinture", "Sculpture", "Photographie", "Autre"],
-  foodTypes: [
-    "Français",
-    "Italien",
-    "Chinois",
-    "Japonais",
-    "Fast-Food",
-    "Autre",
-  ],
-  placesAwards: [0, 1, 2, 3],
-  barTypes: ["Pub", "Cocktail", "Dégustation", "Autre"],
-  parkTypes: ["Municipal", "Jardin", "Forêt", "Parc d'attractions", "Autre"],
-  price: [1, 2, 3, 4, 5],
+  isFree: true,
+  parkAccess: "",
+  museumTypes: "",
+  artTypes: "",
+  foodTypes: "",
+  placesAwards: "",
+  barTypes: "",
+  parkTypes: "",
+  price: "",
 };
 const validationSchema = yup.object({
-  price: priceValidator,
+  isFree: isFreeValidator,
+  placesName: stringValidator,
+  placesAddress: addressValidator,
 });
 const CreatePlacesPage = () => {
   const handleSubmit = async ({}, { resetForm }) => {
@@ -50,7 +54,7 @@ const CreatePlacesPage = () => {
       >
         {({ values }) => (
           <Form>
-            <h1>Type de lieu</h1>
+            <label>Choisissez un type d'établissement </label>
             <Field name="placesType" as="select">
               <option value=""></option>
               <option value="Restaurant">Restaurant</option>
@@ -65,26 +69,32 @@ const CreatePlacesPage = () => {
               type="text"
             />
             <FormField
-              label="Adresse"
-              name="placesAddress"
-              placeholder="Adresse"
+              label="Numéro de voie"
+              name="placesAddress.number"
+              placeholder="Numéro de voie"
+              type="string"
+            />
+            <FormField
+              label="Type de voie"
+              name="placesAddress.street"
+              placeholder="Type de voie"
               type="text"
             />
             <FormField
               label="Code postal"
-              name="placesZipCode"
+              name="placesAddress.zipCode"
               placeholder="Code postal"
               type="integer"
             />
             <FormField
               label="Ville"
-              name="placesCity"
+              name="placesAddress.city"
               placeholder="Ville"
               type="text"
             />
             <FormField
               label="Pays"
-              name="placesCountry"
+              name="placesAddress.country"
               placeholder="Pays"
               type="text"
             />
@@ -92,20 +102,20 @@ const CreatePlacesPage = () => {
               <>
                 <label>Types de musée</label>
                 <Field name="museumTypes" as="select">
-                  <options value=""></options>
-                  <options value="Histoire">Histoire</options>
-                  <options value="Art">Art</options>
-                  <options value="Science">Science</options>
-                  <options value="Ethnographie">Ethnographie</options>
-                  <options value="Autre">Autre</options>
+                  <option value=""></option>
+                  <option value="Histoire">Histoire</option>
+                  <option value="Art">Art</option>
+                  <option value="Science">Science</option>
+                  <option value="Ethnographie">Ethnographie</option>
+                  <option value="Autre">Autre</option>
                 </Field>
                 <label>Types d'art</label>
                 <Field name="artTypes" as="select">
-                  <options value="">Choisissez un type d'art</options>
-                  <options value="Peinture">Peinture</options>
-                  <options value="Sculpture">Sculpture</options>
-                  <options value="Photographie">Photographie</options>
-                  <options value="Autre">Autre</options>
+                  <option value=""></option>
+                  <option value="Peinture">Peinture</option>
+                  <option value="Sculpture">Sculpture</option>
+                  <option value="Photographie">Photographie</option>
+                  <option value="Autre">Autre</option>
                 </Field>
               </>
             )}
@@ -135,11 +145,11 @@ const CreatePlacesPage = () => {
               <>
                 <label>Types de bar</label>
                 <Field name="barTypes" as="select">
-                  <options value=""></options>
-                  <options value="Pub">Pub</options>
-                  <options value="Cocktail">Cocktail</options>
-                  <options value="Dégustation">Dégustation</options>
-                  <options value="Autre">Autre</options>
+                  <option value=""></option>
+                  <option value="Pub">Pub</option>
+                  <option value="Cocktail">Cocktail</option>
+                  <option value="Dégustation">Dégustation</option>
+                  <option value="Autre">Autre</option>
                 </Field>
               </>
             )}
@@ -147,30 +157,28 @@ const CreatePlacesPage = () => {
               <>
                 <label>Types de parc</label>
                 <Field name="parkTypes" as="select">
-                  <options value=""></options>
-                  <options value="Municipal">Municipal</options>
-                  <options value="Jardin">Jardin</options>
-                  <options value="Forêt">Forêt</options>
-                  <options value="Parc d'attractions">
-                    Parc d'attractions
-                  </options>
-                  <options value="Autre">Autre</options>
+                  <option value=""></option>
+                  <option value="Municipal">Municipal</option>
+                  <option value="Jardin">Jardin</option>
+                  <option value="Forêt">Forêt</option>
+                  <option value="Parc d'attractions">Parc d'attractions</option>
+                  <option value="Autre">Autre</option>
                 </Field>
                 <label>Accès</label>
                 <Field name="parkAccess" as="select">
-                  <options value=""></options>
-                  <options value="Public">Public</options>
-                  <options value="Privé">Privé</options>
+                  <option value=""></option>
+                  <option value="Public">Public</option>
+                  <option value="Privé">Privé</option>
                 </Field>
               </>
             )}
-            <label>Gratuit ou payant ?</label>
-            <Field name="isFree" as="select">
-              <option value=""></option>
-              <option value="true">Gratuit</option>
-              <option value="false">Payant</option>
-            </Field>
-            {values.isFree === "false" && (
+            <FormField
+              label="Gratuit ?"
+              name="isFree"
+              placeholder="Gratuit"
+              type="checkbox"
+            />
+            {values.isFree === false && (
               <>
                 <h1>Fourchette de prix</h1>
                 <Field name="price" as="select">
@@ -181,6 +189,17 @@ const CreatePlacesPage = () => {
                   <option value="4">€€€€</option>
                   <option value="5">€€€€€</option>
                 </Field>
+                {values.placesType === "Museum" ||
+                  (values.placesType === "Park" && (
+                    <>
+                      <FormField
+                        label="Prix"
+                        name="price"
+                        placeholder="Prix"
+                        type="number"
+                      />
+                    </>
+                  ))}
               </>
             )}
             <Button type="submit">Créer</Button>

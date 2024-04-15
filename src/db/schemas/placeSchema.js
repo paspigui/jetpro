@@ -1,12 +1,14 @@
 import { Schema } from "mongoose";
+import { number } from "yup";
 
-export const placesSchema = new Schema({
+export const placeSchema = new Schema({
   timestamps: {
     createdAt: "created_at",
     updatedAt: "updated_at",
   },
   placesType: {
     type: String,
+    enum: ["Restaurant", "Museum", "Bar", "Park"],
     required: true,
   },
   name: {
@@ -15,7 +17,7 @@ export const placesSchema = new Schema({
   },
   address: {
     number: {
-      type: integer,
+      type: Number,
       required: true,
     },
     street: {
@@ -26,36 +28,47 @@ export const placesSchema = new Schema({
       type: String,
       required: true,
     },
+    country: {
+      type: String,
+      required: true,
+    },
     zipCode: {
-      type: integer,
-      required: true,
-    },
-    isFree: {
-      type: Boolean,
-      required: true,
-    },
-    price: {
       type: Number,
       required: true,
     },
   },
+  isFree: {
+    type: Boolean,
+    required: true,
+  },
   restaurant: {
     foodTypes: {
       type: String,
+      enum: [
+        "Francais",
+        "Italien",
+        "Chinois",
+        "Japonais",
+        "Fast-food",
+        "Autre",
+      ],
       required: true,
     },
     placesAwards: {
-      type: integer,
+      type: number,
+      enum: [0, 1, 2, 3],
       required: true,
     },
   },
   museum: {
     museumTypes: {
       type: String,
+      enum: ["Histoire", "Art", "Science", "Ethnographie", "Autre"],
       required: true,
     },
     artTypes: {
       type: String,
+      enum: ["Peinture", "Sculpture", "Photographie", "Autre"],
       required: true,
     },
     isFree: {
@@ -66,20 +79,19 @@ export const placesSchema = new Schema({
   bar: {
     barTypes: {
       type: String,
+      enum: ["Pub", "Cocktail", "Dégustation", "Autre"],
       required: true,
     },
   },
   park: {
     parkTypes: {
       type: String,
+      enum: ["Municipal", "Jardin", "Forêt", "Parc d'attractions", "Autre"],
       required: true,
     },
     parkAccess: {
       type: String,
-      required: true,
-    },
-    rating: {
-      type: Number,
+      enum: ["Privé", "Public"],
       required: true,
     },
   },
