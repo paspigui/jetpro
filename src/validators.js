@@ -15,6 +15,8 @@ export const isFreeValidator = yup.boolean().required().default(true);
 
 export const priceValidator = yup.number().required("Ce champ est requis");
 
+export const selectorValidator = yup.string().required("Ce champ est requis");
+
 export const addressValidator = yup.object().shape({
   number: numberValidator,
   street: stringValidator,

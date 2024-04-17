@@ -24,14 +24,6 @@ const App = ({ Component, pageProps }) => (
           <ul className="flex gap-4 underline-offset-auto">
             <li>
               <Link
-                href="/places/list"
-                className="no-underline hover:underline"
-              >
-                Liste
-              </Link>
-            </li>
-            <li>
-              <Link
                 href="/places/create"
                 className="no-underline hover:underline"
               >

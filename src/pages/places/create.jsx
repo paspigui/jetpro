@@ -10,7 +10,6 @@ import {
   isFreeValidator,
   addressValidator,
   selectValidator,
-  museumTypesValidator,
 } from "@/validators";
 
 const initialValues = {
@@ -19,10 +18,10 @@ const initialValues = {
   placesAddress: {
     number: "",
     street: "",
+    zipCode: "",
     city: "",
     country: "",
   },
-  placesZipCode: "",
   isFree: true,
   parkAccess: "",
   museumTypes: "",
@@ -37,10 +36,19 @@ const validationSchema = yup.object({
   isFree: isFreeValidator,
   placesName: stringValidator,
   placesAddress: addressValidator,
+  placesType: selectValidator,
+  parkAccess: selectValidator,
+  museumTypes: selectValidator,
+  artTypes: selectValidator,
+  foodTypes: selectValidator,
+  placesAwards: selectValidator,
+  barTypes: selectValidator,
+  parkTypes: selectValidator,
 });
 const CreatePlacesPage = () => {
-  const handleSubmit = async ({}, { resetForm }) => {
-    await axios.post("http://localhost:3000/api/places", {});
+  const handleSubmit = async (values, { resetForm }) => {
+    console.log(values);
+    await axios.post("http://localhost:3000/api/places", { values });
 
     resetForm();
   };

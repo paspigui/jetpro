@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { placesSchema } from "../schemas/placeSchema";
+import { placeSchema } from "../schemas/placeSchema";
 
-export const PlacesModel =
-  mongoose.models.Places || mongoose.model("Places", placesSchema);
+export const PlaceModel =
+  mongoose.models.Place || mongoose.model("Place", placeSchema);

@@ -2,20 +2,20 @@ import { Schema } from "mongoose";
 import { number } from "yup";
 
 export const placeSchema = new Schema({
-  timestamps: {
-    createdAt: "created_at",
-    updatedAt: "updated_at",
-  },
+  // timestamps: {
+  //   createdAt: ,
+  //   updatedAt: Date.now(),
+  // },
   placesType: {
     type: String,
     enum: ["Restaurant", "Museum", "Bar", "Park"],
     required: true,
   },
-  name: {
+  placesName: {
     type: String,
     required: true,
   },
-  address: {
+  placesAddress: {
     number: {
       type: Number,
       required: true,
@@ -24,16 +24,16 @@ export const placeSchema = new Schema({
       type: String,
       required: true,
     },
+    zipCode: {
+      type: Number,
+      required: true,
+    },
     city: {
       type: String,
       required: true,
     },
     country: {
       type: String,
-      required: true,
-    },
-    zipCode: {
-      type: Number,
       required: true,
     },
   },
@@ -52,47 +52,63 @@ export const placeSchema = new Schema({
         "Fast-food",
         "Autre",
       ],
-      required: true,
+      required: function () {
+        return this.placesType === "Restaurant";
+      },
     },
-    placesAwards: {
-      type: number,
+    awards: {
+      type: Number,
       enum: [0, 1, 2, 3],
-      required: true,
+      required: function () {
+        return this.placesType === "Restaurant";
+      },
     },
   },
   museum: {
     museumTypes: {
       type: String,
       enum: ["Histoire", "Art", "Science", "Ethnographie", "Autre"],
-      required: true,
+      required: function () {
+        return this.placesType === "Museum";
+      },
     },
     artTypes: {
       type: String,
       enum: ["Peinture", "Sculpture", "Photographie", "Autre"],
-      required: true,
+      required: function () {
+        return this.placesType === "Museum";
+      },
     },
     isFree: {
       type: Boolean,
-      required: true,
+      required: function () {
+        return this.placesType === "Museum";
+      },
     },
   },
   bar: {
     barTypes: {
       type: String,
       enum: ["Pub", "Cocktail", "Dégustation", "Autre"],
-      required: true,
+      required: function () {
+        return this.placesType === "Bar";
+      },
     },
   },
   park: {
     parkTypes: {
       type: String,
       enum: ["Municipal", "Jardin", "Forêt", "Parc d'attractions", "Autre"],
-      required: true,
+      required: function () {
+        return this.placesType === "Park";
+      },
     },
     parkAccess: {
       type: String,
       enum: ["Privé", "Public"],
-      required: true,
+      required: function () {
+        return this.placesType === "Park";
+      },
     },
   },
 });
