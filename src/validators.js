@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 export const stringValidator = yup
   .string()
-  .min(5, "Ce champ doit contenir au moins 5 caractères")
+  .min(4, "Ce champ doit contenir au moins 4 caractères")
   .required("Ce champ est requis");
 
 export const numberValidator = yup

@@ -22,15 +22,7 @@ const initialValues = {
     city: "",
     country: "",
   },
-  isFree: true,
-  parkAccess: "",
-  museumTypes: "",
-  artTypes: "",
-  foodTypes: "",
-  placesAwards: "",
-  barTypes: "",
-  parkTypes: "",
-  price: "",
+  isFree: false,
 };
 const validationSchema = yup.object({
   isFree: isFreeValidator,
@@ -83,9 +75,9 @@ const CreatePlacesPage = () => {
               type="string"
             />
             <FormField
-              label="Type de voie"
+              label="Rue"
               name="placesAddress.street"
-              placeholder="Type de voie"
+              placeholder="Rue"
               type="text"
             />
             <FormField
@@ -109,7 +101,7 @@ const CreatePlacesPage = () => {
             {values.placesType === "Museum" && (
               <>
                 <label>Types de musée</label>
-                <Field name="museumTypes" as="select">
+                <Field name="museum.types" as="select">
                   <option value=""></option>
                   <option value="Histoire">Histoire</option>
                   <option value="Art">Art</option>
@@ -118,7 +110,7 @@ const CreatePlacesPage = () => {
                   <option value="Autre">Autre</option>
                 </Field>
                 <label>Types d'art</label>
-                <Field name="artTypes" as="select">
+                <Field name="museum.artTypes" as="select">
                   <option value=""></option>
                   <option value="Peinture">Peinture</option>
                   <option value="Sculpture">Sculpture</option>
@@ -130,19 +122,19 @@ const CreatePlacesPage = () => {
             {values.placesType === "Restaurant" && (
               <>
                 <label>Types de cuisine</label>
-                <Field name="foodTypes" as="select">
+                <Field name="restaurant.foodTypes" as="select">
                   <option value=""></option>
                   <option value="Français">Français</option>
                   <option value="Italien">Italien</option>
-                  <option value="Chinois">Chinois</option>
+                  <option value="Africain">Chinois</option>
                   <option value="Japonais">Japonais</option>
-                  <option value="Fast-Food">Fast-Food</option>
+                  <option value="Fast-food">Fast-food</option>
                   <option value="Autre">Autre</option>
                 </Field>
                 <label>Nombre d'étoiles</label>
-                <Field name="placesAwards" as="select">
+                <Field name="restaurant.awards" as="select">
                   <option value=""></option>
-                  <option value="O">Non étoilé</option>
+                  <option value="0">Non étoilé</option>
                   <option value="1">1 étoile</option>
                   <option value="2">2 étoiles</option>
                   <option value="3">3 étoiles</option>
@@ -152,7 +144,7 @@ const CreatePlacesPage = () => {
             {values.placesType === "Bar" && (
               <>
                 <label>Types de bar</label>
-                <Field name="barTypes" as="select">
+                <Field name="bar.types" as="select">
                   <option value=""></option>
                   <option value="Pub">Pub</option>
                   <option value="Cocktail">Cocktail</option>
@@ -164,7 +156,7 @@ const CreatePlacesPage = () => {
             {values.placesType === "Park" && (
               <>
                 <label>Types de parc</label>
-                <Field name="parkTypes" as="select">
+                <Field name="park.types" as="select">
                   <option value=""></option>
                   <option value="Municipal">Municipal</option>
                   <option value="Jardin">Jardin</option>
@@ -173,7 +165,7 @@ const CreatePlacesPage = () => {
                   <option value="Autre">Autre</option>
                 </Field>
                 <label>Accès</label>
-                <Field name="parkAccess" as="select">
+                <Field name="park.accessibility" as="select">
                   <option value=""></option>
                   <option value="Public">Public</option>
                   <option value="Privé">Privé</option>
@@ -189,7 +181,7 @@ const CreatePlacesPage = () => {
             {values.isFree === false && (
               <>
                 <h1>Fourchette de prix</h1>
-                <Field name="price" as="select">
+                <Field name="averagePrice" as="select">
                   <option value=""></option>
                   <option value="1">€</option>
                   <option value="2">€€</option>

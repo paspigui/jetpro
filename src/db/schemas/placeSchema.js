@@ -1,5 +1,4 @@
 import { Schema } from "mongoose";
-import { number } from "yup";
 
 export const placeSchema = new Schema({
   // timestamps: {
@@ -41,13 +40,20 @@ export const placeSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  averagePrice: {
+    type: Number,
+    enum: [1, 2, 3, 4, 5],
+    required: function () {
+      return this.isFree === false;
+    },
+  },
   restaurant: {
     foodTypes: {
       type: String,
       enum: [
-        "Francais",
+        "Français",
         "Italien",
-        "Chinois",
+        "Africain",
         "Japonais",
         "Fast-food",
         "Autre",
@@ -65,7 +71,7 @@ export const placeSchema = new Schema({
     },
   },
   museum: {
-    museumTypes: {
+    types: {
       type: String,
       enum: ["Histoire", "Art", "Science", "Ethnographie", "Autre"],
       required: function () {
@@ -79,15 +85,9 @@ export const placeSchema = new Schema({
         return this.placesType === "Museum";
       },
     },
-    isFree: {
-      type: Boolean,
-      required: function () {
-        return this.placesType === "Museum";
-      },
-    },
   },
   bar: {
-    barTypes: {
+    types: {
       type: String,
       enum: ["Pub", "Cocktail", "Dégustation", "Autre"],
       required: function () {
@@ -96,19 +96,28 @@ export const placeSchema = new Schema({
     },
   },
   park: {
-    parkTypes: {
+    types: {
       type: String,
       enum: ["Municipal", "Jardin", "Forêt", "Parc d'attractions", "Autre"],
       required: function () {
         return this.placesType === "Park";
       },
     },
-    parkAccess: {
+    accessibility: {
       type: String,
       enum: ["Privé", "Public"],
       required: function () {
         return this.placesType === "Park";
       },
+    },
+  },
+  price: {
+    type: Number,
+    required: function () {
+      return (
+        this.placesType === "Museum" ||
+        (this.placesType === "Park" && this.park.accessibility === "Privé")
+      );
     },
   },
 });
