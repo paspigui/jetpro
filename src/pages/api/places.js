@@ -1,9 +1,9 @@
 import { mw } from "@/api/mw";
-import { createPlace } from "@/db/crud";
+import { createPlace, readPlaces } from "@/db/crud";
 
 const handle = mw(async (req, res) => {
-  // Read (collection) => GET /todos
   if (req.method === "GET") {
+    console.log("API", req.body);
     const places = await readPlaces();
 
     res.send(places);
@@ -11,16 +11,15 @@ const handle = mw(async (req, res) => {
     return;
   }
 
-  // Create (item) => POST /todos
   if (req.method === "POST") {
-    console.log("API", req.body);
+    // console.log("API", req.body);
     const values = req.body.values;
 
-    // if (!description) {
-    //   res.status(422).send({ error: "missing description argument" });
+    if (!values) {
+      res.status(422).send({ error: "missing description argument" });
 
-    //   return;
-    // }
+      return;
+    }
 
     const newPlace = await createPlace(values);
 

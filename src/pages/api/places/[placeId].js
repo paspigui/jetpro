@@ -1,12 +1,11 @@
 import { mw } from "@/api/mw";
-import { deleteTodo, readTodo, updateTodo } from "@/db/crud";
+import { deletePlace, readPlace, updatePlace } from "@/db/crud";
 
 const handle = mw(async (req, res) => {
   const { placeId } = req.query;
 
-  // Read (item) => GET /todos/:todoId
   if (req.method === "GET") {
-    const place = await readTodo(placeId);
+    const place = await readPlace(placeId);
 
     if (!place) {
       res.status(404).send({ error: "Not found" });
@@ -19,32 +18,30 @@ const handle = mw(async (req, res) => {
     return;
   }
 
-  // Update (item) => PATCH /todos/:todoId
   if (req.method === "PATCH") {
-    const updatedTodo = await updateTodo(todoId, req.body);
+    const updatedPlace = await updatePlace(placeId, req.body);
 
-    if (!updatedTodo) {
+    if (!updatedPlace) {
       res.status(404).send({ error: "Not found" });
 
       return;
     }
 
-    res.send(updatedTodo);
+    res.send(updatedPlace);
 
     return;
   }
 
-  // Delete (item) => DELETE /todos/:todoId
   if (req.method === "DELETE") {
-    const todoToBeDelete = await deleteTodo(todoId);
+    const placeToBeDelete = await deletePlace(placeId);
 
-    if (!todoToBeDelete) {
+    if (!placeToBeDelete) {
       res.status(404).send({ error: "Not found" });
 
       return;
     }
 
-    res.send(todoToBeDelete);
+    res.send(placeToBeDelete);
 
     return;
   }

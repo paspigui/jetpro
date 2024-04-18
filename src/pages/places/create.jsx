@@ -164,11 +164,11 @@ const CreatePlacesPage = () => {
                   <option value="Parc d'attractions">Parc d'attractions</option>
                   <option value="Autre">Autre</option>
                 </Field>
-                <label>Accès</label>
+                <label>Accessibilité</label>
                 <Field name="park.accessibility" as="select">
                   <option value=""></option>
-                  <option value="Public">Public</option>
-                  <option value="Privé">Privé</option>
+                  <option value="Gratuit">Gratuit</option>
+                  <option value="Payant">Payant</option>
                 </Field>
               </>
             )}
@@ -178,7 +178,7 @@ const CreatePlacesPage = () => {
               placeholder="Gratuit"
               type="checkbox"
             />
-            {values.isFree === false && (
+            {values.isFree && (
               <>
                 <h1>Fourchette de prix</h1>
                 <Field name="averagePrice" as="select">

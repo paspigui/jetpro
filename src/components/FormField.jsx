@@ -7,6 +7,7 @@ export const FormField = ({
   name,
   label,
   placeholder,
+  options,
   ...otherProps
 }) => (
   <label className={twMerge(clsx("flex flex-col gap-2", className))}>
@@ -15,8 +16,11 @@ export const FormField = ({
       name={name}
       className="border-2 focus:border-indigo-400 outline-none px-3 py-2"
       placeholder={placeholder || label}
+      as={options ? "select" : "input"}
       {...otherProps}
     />
+    {options &&
+      options.map((option, index) => <option value={index}>{option}</option>)}
     <ErrorMessage
       component="span"
       className="text-sm text-red-500"

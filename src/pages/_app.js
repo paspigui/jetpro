@@ -30,6 +30,11 @@ const App = ({ Component, pageProps }) => (
                 Ajout
               </Link>
             </li>
+            <li>
+              <Link href="/places" className="no-underline hover:underline">
+                Liste
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
