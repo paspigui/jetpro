@@ -190,7 +190,7 @@ const PlaceEditPage = (place) => {
               placeholder="Gratuit"
               type="checkbox"
             />
-            {values.isFree && (
+            {!values.isFree && (
               <>
                 <h1>Fourchette de prix</h1>
                 <Field name="averagePrice" as="select">

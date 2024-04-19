@@ -3,6 +3,8 @@ import axios from "axios";
 // import clsx from "clsx";
 import Link from "next/link";
 import { useState } from "react";
+import { FaDeleteLeft } from "react-icons/fa6";
+import { FaEdit } from "react-icons/fa";
 
 export const getServerSideProps = async () => {
   const reponse = await axios("http://localhost:3000/api/places");
@@ -30,7 +32,16 @@ const PlacesPage = ({ initialPlaces }) => {
       {places.map(({ _id, placesName }) => (
         <li key={_id} className="group flex items-center gap-2">
           <Link href={`/places/${_id}`} className="flex gap-2 py-1">
-            <span className="h-6 w-6 border border-green-500" /> {placesName}{" "}
+            {placesName}{" "}
+          </Link>
+          <Link href={`/places/${_id}/edit`} className="flex gap-2 py-1">
+            <Button
+              variant="primary"
+              size="md"
+              className="hidden group-hover:inline"
+            >
+              <FaEdit />
+            </Button>
           </Link>
           <Button
             onClick={handleDelete(_id)}
@@ -38,7 +49,7 @@ const PlacesPage = ({ initialPlaces }) => {
             size="md"
             className="hidden group-hover:inline"
           >
-            DELETE
+            <FaDeleteLeft />
           </Button>
         </li>
       ))}

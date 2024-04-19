@@ -5,7 +5,10 @@ export const getServerSideProps = ({ query }) => ({
 });
 
 const PlacePage = ({ placeId }) => {
-  return <div>Place: {placeId}</div>;
+  return (
+    <div>
+      <p>id: {placeId}</p>
+    </div>
+  );
 };
-
 export default PlacePage;

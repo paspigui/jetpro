@@ -13,8 +13,6 @@ export const readPlace = async (placeId) => await PlaceModel.findById(placeId);
 export const updatePlace = async (placeId, values) => {
   const input = {
     ...values,
-    // description: description.trim() || undefined,
-    // isDone: isDone ?? undefined,
   };
   const updatedPlace = await PlaceModel.findByIdAndUpdate(placeId, input, {
     returnDocument: "after",
