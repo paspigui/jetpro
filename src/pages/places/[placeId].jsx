@@ -10,6 +10,7 @@ export const getServerSideProps = async ({ params }) => {
     props: { initPlace },
   };
 };
+// to upgrade
 
 const PlacesInfoPage = ({ initPlace }) => {
   const [place, setPlace] = useState(initPlace);
