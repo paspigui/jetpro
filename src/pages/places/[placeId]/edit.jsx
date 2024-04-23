@@ -21,19 +21,6 @@ export const getServerSideProps = async ({ query: { placeId } }) => {
   return { props: { place } };
 };
 
-// const initialValues = {
-//   placesType: "",
-//   placesName: "",
-//   placesAddress: {
-//     number: "",
-//     street: "",
-//     zipCode: "",
-//     city: "",
-//     country: "",
-//   },
-//   isFree: false,
-// };
-
 const validationSchema = yup.object({
   isFree: isFreeValidator,
   placesName: stringValidator,
@@ -52,7 +39,7 @@ const PlaceEditPage = (place) => {
   const initialValues = place;
   const handleSubmit = async (values) => {
     // console.log(values);
-    await axios.patch(`http://localhost:3000/api/places/${todo.id}`, values);
+    await axios.patch(`http://localhost:3000/api/places/${place.id}`, values);
 
     router.push("/places");
   };

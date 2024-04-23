@@ -1,4 +1,16 @@
-export default function Home() {
+import axios from "axios";
+import { useState } from "react";
+
+// export const getServerSideProps = async ({ placeId }) => {
+//   const reponse = await axios(`http://localhost:3000/api/places/${placeId}`);
+//   const initialPlace = reponse.data;
+//   return {
+//     props: { initialPlace },
+//   };
+// };
+export default function Home({ initialPlace }) {
+  const [place, setPlace] = useState(initialPlace);
+
   return (
     <div>
       <h1 className="text-center">
@@ -18,6 +30,12 @@ export default function Home() {
         des lieux à visiter.
       </p>
       <p>Voici les dernieres places ajoutées</p>
+      {/* <ul className="flex flex-col gap-4">
+        <li key={place._id} className="group flex items-center gap-2">
+          <h2>{place.placesName}</h2>
+          <p>{place.placesType}</p>
+        </li>
+      </ul> */}
     </div>
   );
 }

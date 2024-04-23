@@ -4,13 +4,15 @@ import { FormField } from "@/components/FormField";
 import axios from "axios";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { Field } from "formik";
 import {
   stringValidator,
   isFreeValidator,
   addressValidator,
   selectValidator,
+  priceValidator,
 } from "@/validators";
+
+const placesType = ["Restaurant", "Musée", "Bar", "Parc"]; // enum in db/schemas/placeSchema.js (faut que je trouve un moyen de l'import)
 
 const initialValues = {
   placesType: "",
@@ -23,23 +25,60 @@ const initialValues = {
     country: "",
   },
   isFree: false,
+  averagePrice: "",
+  restaurant: placesType === "Restaurant" && {
+    foodTypes: "",
+    awards: "",
+  },
+  park: placesType === "Parc" && {
+    types: "",
+    accessibility: "",
+    price: "",
+  },
+  museum: placesType === "Musée" && {
+    types: "",
+    artTypes: "",
+    price: "",
+  },
+  bar: placesType === "Bar" && {
+    types: "",
+  },
 };
+
 const validationSchema = yup.object({
   isFree: isFreeValidator,
   placesName: stringValidator,
   placesAddress: addressValidator,
   placesType: selectValidator,
-  parkAccess: selectValidator,
-  museumTypes: selectValidator,
-  artTypes: selectValidator,
-  foodTypes: selectValidator,
-  placesAwards: selectValidator,
-  barTypes: selectValidator,
-  parkTypes: selectValidator,
+  // restaurant: {
+  //   foodTypes: selectValidator,
+  //   awards: selectValidator,
+  // },
+  // park: {
+  //   accessibility: selectValidator,
+  // },
+  // museum: {
+  //   types: selectValidator,
+  //   artTypes: selectValidator,
+  // },
+  // food: {
+  //   types: selectValidator,
+  // },
+  // place: {
+  //   awards: selectValidator,
+  // },
+  // bar: {
+  //   types: selectValidator,
+  // },
+  // park: {
+  //   types: selectValidator,
+  //   accessibility: selectValidator,
+  // },
+  price: priceValidator,
 });
+
 const CreatePlacesPage = () => {
   const handleSubmit = async (values, { resetForm }) => {
-    console.log(values);
     await axios.post("http://localhost:3000/api/places", { values });
 
     resetForm();
@@ -52,16 +91,19 @@ const CreatePlacesPage = () => {
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
-        {({ values }) => (
+        {({ values, errors }) => (
           <Form>
-            <label>Choisissez un type d'établissement </label>
-            <Field name="placesType" as="select">
+            <FormField
+              name="placesType"
+              as="select"
+              label="Choisissez un type d'établissement"
+            >
               <option value=""></option>
               <option value="Restaurant">Restaurant</option>
-              <option value="Museum">Musée</option>
+              <option value="Musée">Musée</option>
               <option value="Bar">Bar</option>
-              <option value="Park">Parc</option>
-            </Field>
+              <option value="Parc">Parc</option>
+            </FormField>
             <FormField
               label="Nom de l'établissement"
               name="placesName"
@@ -72,7 +114,7 @@ const CreatePlacesPage = () => {
               label="Numéro de voie"
               name="placesAddress.number"
               placeholder="Numéro de voie"
-              type="string"
+              type="text"
             />
             <FormField
               label="Rue"
@@ -84,7 +126,7 @@ const CreatePlacesPage = () => {
               label="Code postal"
               name="placesAddress.zipCode"
               placeholder="Code postal"
-              type="integer"
+              type="text"
             />
             <FormField
               label="Ville"
@@ -98,78 +140,93 @@ const CreatePlacesPage = () => {
               placeholder="Pays"
               type="text"
             />
-            {values.placesType === "Museum" && (
+            {values.placesType === "Musée" && (
               <>
-                <label>Types de musée</label>
-                <Field name="museum.types" as="select">
+                <FormField
+                  name="museum.types"
+                  as="select"
+                  label="Types de musée"
+                >
                   <option value=""></option>
                   <option value="Histoire">Histoire</option>
                   <option value="Art">Art</option>
                   <option value="Science">Science</option>
                   <option value="Ethnographie">Ethnographie</option>
                   <option value="Autre">Autre</option>
-                </Field>
-                <label>Types d'art</label>
-                <Field name="museum.artTypes" as="select">
+                </FormField>
+                <FormField
+                  name="museum.artTypes"
+                  as="select"
+                  label="Types d'art"
+                >
                   <option value=""></option>
                   <option value="Peinture">Peinture</option>
                   <option value="Sculpture">Sculpture</option>
                   <option value="Photographie">Photographie</option>
                   <option value="Autre">Autre</option>
-                </Field>
+                </FormField>
               </>
             )}
             {values.placesType === "Restaurant" && (
               <>
-                <label>Types de cuisine</label>
-                <Field name="restaurant.foodTypes" as="select">
+                <FormField
+                  name="restaurant.foodTypes"
+                  as="select"
+                  label="Types de cuisine"
+                >
                   <option value=""></option>
                   <option value="Français">Français</option>
                   <option value="Italien">Italien</option>
-                  <option value="Africain">Chinois</option>
+                  <option value="Africain">Africain</option>
                   <option value="Japonais">Japonais</option>
                   <option value="Fast-food">Fast-food</option>
                   <option value="Autre">Autre</option>
-                </Field>
-                <label>Nombre d'étoiles</label>
-                <Field name="restaurant.awards" as="select">
+                </FormField>
+
+                <FormField
+                  name="restaurant.awards"
+                  as="select"
+                  label="Nombre d'étoiles"
+                >
                   <option value=""></option>
                   <option value="0">Non étoilé</option>
                   <option value="1">1 étoile</option>
                   <option value="2">2 étoiles</option>
                   <option value="3">3 étoiles</option>
-                </Field>
+                </FormField>
               </>
             )}
             {values.placesType === "Bar" && (
               <>
-                <label>Types de bar</label>
-                <Field name="bar.types" as="select">
+                <FormField name="bar.types" as="select" label="Types de bar">
                   <option value=""></option>
                   <option value="Pub">Pub</option>
                   <option value="Cocktail">Cocktail</option>
                   <option value="Dégustation">Dégustation</option>
                   <option value="Autre">Autre</option>
-                </Field>
+                </FormField>
               </>
             )}
-            {values.placesType === "Park" && (
+            {values.placesType === "Parc" && (
               <>
-                <label>Types de parc</label>
-                <Field name="park.types" as="select">
+                <FormField name="park.types" as="select" label="Types de parc">
                   <option value=""></option>
                   <option value="Municipal">Municipal</option>
                   <option value="Jardin">Jardin</option>
                   <option value="Forêt">Forêt</option>
                   <option value="Parc d'attractions">Parc d'attractions</option>
                   <option value="Autre">Autre</option>
-                </Field>
-                <label>Accessibilité</label>
-                <Field name="park.accessibility" as="select">
+                </FormField>
+
+                <FormField
+                  name="park.accessibility"
+                  as="select"
+                  label="Accessibilité"
+                >
                   <option value=""></option>
-                  <option value="Gratuit">Gratuit</option>
-                  <option value="Payant">Payant</option>
-                </Field>
+                  <option value="Privé">Privé</option>
+                  <option value="Public">Public</option>
+                </FormField>
               </>
             )}
             <FormField
@@ -178,31 +235,37 @@ const CreatePlacesPage = () => {
               placeholder="Gratuit"
               type="checkbox"
             />
-            {values.isFree && (
+            {!values.isFree && (
               <>
-                <h1>Fourchette de prix</h1>
-                <Field name="averagePrice" as="select">
+                <FormField
+                  name="averagePrice"
+                  as="select"
+                  label="Fourchette de prix"
+                >
                   <option value=""></option>
                   <option value="1">€</option>
                   <option value="2">€€</option>
                   <option value="3">€€€</option>
                   <option value="4">€€€€</option>
                   <option value="5">€€€€€</option>
-                </Field>
-                {values.placesType === "Museum" ||
-                  (values.placesType === "Park" && (
-                    <>
-                      <FormField
-                        label="Prix"
-                        name="price"
-                        placeholder="Prix"
-                        type="number"
-                      />
-                    </>
-                  ))}
+                </FormField>
+                {((values.placesType === "Musée" && !values.isFree) ||
+                  (values.placesType === "Parc" &&
+                    values?.park?.accessibility === "Privé")) && (
+                  <>
+                    <FormField
+                      label="Prix"
+                      name="price"
+                      placeholder="Prix"
+                      type="text"
+                    />
+                  </>
+                )}
               </>
             )}
-            <Button type="submit">Créer</Button>
+            <Button onClick={() => console.log(errors)} type="submit">
+              Créer
+            </Button>
           </Form>
         )}
       </Formik>

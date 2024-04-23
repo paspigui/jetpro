@@ -7,7 +7,7 @@ export const placeSchema = new Schema({
   // },
   placesType: {
     type: String,
-    enum: ["Restaurant", "Museum", "Bar", "Park"],
+    enum: ["Restaurant", "Musée", "Bar", "Parc"],
     required: true,
   },
   placesName: {
@@ -75,14 +75,14 @@ export const placeSchema = new Schema({
       type: String,
       enum: ["Histoire", "Art", "Science", "Ethnographie", "Autre"],
       required: function () {
-        return this.placesType === "Museum";
+        return this.placesType === "Musée";
       },
     },
     artTypes: {
       type: String,
       enum: ["Peinture", "Sculpture", "Photographie", "Autre"],
       required: function () {
-        return this.placesType === "Museum";
+        return this.placesType === "Musée";
       },
     },
   },
@@ -100,14 +100,14 @@ export const placeSchema = new Schema({
       type: String,
       enum: ["Municipal", "Jardin", "Forêt", "Parc d'attractions", "Autre"],
       required: function () {
-        return this.placesType === "Park";
+        return this.placesType === "Parc";
       },
     },
     accessibility: {
       type: String,
       enum: ["Privé", "Public"],
       required: function () {
-        return this.placesType === "Park";
+        return this.placesType === "Parc";
       },
     },
   },
@@ -115,8 +115,8 @@ export const placeSchema = new Schema({
     type: Number,
     required: function () {
       return (
-        this.placesType === "Museum" ||
-        (this.placesType === "Park" && this.park.accessibility === "Privé")
+        (this.placesType === "Musée" && this.isFree === false) ||
+        (this.placesType === "Parc" && this.park.accessibility === "Privé")
       );
     },
   },

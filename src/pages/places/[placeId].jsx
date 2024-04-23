@@ -1,14 +1,25 @@
-export const getServerSideProps = ({ query }) => ({
-  props: {
-    placeId: query.placeId,
-  },
-});
+import { useState } from "react";
+import axios from "axios";
 
-const PlacePage = ({ placeId }) => {
+export const getServerSideProps = async ({ params }) => {
+  const reponse = await axios(
+    `http://localhost:3000/api/places/${params.placeId}`
+  );
+  const initPlace = reponse.data;
+  return {
+    props: { initPlace },
+  };
+};
+
+const PlacesInfoPage = ({ initPlace }) => {
+  const [place, setPlace] = useState(initPlace);
+
   return (
-    <div>
-      <p>id: {placeId}</p>
-    </div>
+    <>
+      <h1>{place.placesName}</h1>
+      <p>{place.placesType}</p>
+    </>
   );
 };
-export default PlacePage;
+
+export default PlacesInfoPage;

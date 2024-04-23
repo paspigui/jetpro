@@ -8,14 +8,15 @@ export const stringValidator = yup
 export const numberValidator = yup
   .number()
   .typeError("Ce champ doit être un nombre")
-  .min(1, "Ce champ doit contenir au moins 1 caractère")
+  .min(1)
   .required("Ce champ est requis");
 
 export const isFreeValidator = yup.boolean().required().default(true);
 
-export const priceValidator = yup.number().required("Ce champ est requis");
-
-export const selectorValidator = yup.string().required("Ce champ est requis");
+export const selectValidator = yup
+  .string()
+  .notOneOf([""], "Ce champ est requis")
+  .required("Ce champ est requis");
 
 export const addressValidator = yup.object().shape({
   number: numberValidator,

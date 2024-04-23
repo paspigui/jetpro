@@ -12,7 +12,7 @@ const handle = mw(async (req, res) => {
   }
 
   if (req.method === "POST") {
-    // console.log("API", req.body);
+    console.log("API", req.body);
     const values = req.body.values;
 
     if (!values) {
