@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+// a finir
 
 // export const getServerSideProps = async ({ placeId }) => {
 //   const reponse = await axios(`http://localhost:3000/api/places/${placeId}`);

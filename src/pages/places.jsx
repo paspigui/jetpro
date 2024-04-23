@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
+// a finir
 
 export const getServerSideProps = async ({ params }) => {
   const reponse = await axios("http://localhost:3000/api/places");
