@@ -7,7 +7,6 @@ export const FormField = ({
   name,
   label,
   placeholder,
-  options,
   ...otherProps
 }) => (
   <label className={twMerge(clsx("flex flex-col gap-2", className))}>
