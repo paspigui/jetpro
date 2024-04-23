@@ -12,6 +12,7 @@ import {
   addressValidator,
   selectValidator,
 } from "@/validators";
+//a modifier une fois que create est fait
 
 export const getServerSideProps = async ({ query: { placeId } }) => {
   const { data: place } = await axios(
