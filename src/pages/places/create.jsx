@@ -8,8 +8,7 @@ import {
   stringValidator,
   isFreeValidator,
   addressValidator,
-  selectValidator,
-  priceValidator,
+  numberValidator,
 } from "@/validators";
 
 const placesType = ["Restaurant", "Musée", "Bar", "Parc"]; // enum in db/schemas/placeSchema.js (faut que je trouve un moyen de l'import)
@@ -46,39 +45,38 @@ const initialValues = {
 };
 
 const validationSchema = yup.object({
-  isFree: isFreeValidator,
+  placesType: stringValidator,
   placesName: stringValidator,
   placesAddress: addressValidator,
-  placesType: selectValidator,
-  // restaurant: {
-  //   foodTypes: selectValidator,
-  //   awards: selectValidator,
-  // },
-  // park: {
-  //   accessibility: selectValidator,
-  // },
-  // museum: {
-  //   types: selectValidator,
-  //   artTypes: selectValidator,
-  // },
-  // food: {
-  //   types: selectValidator,
-  // },
-  // place: {
-  //   awards: selectValidator,
-  // },
-  // bar: {
-  //   types: selectValidator,
-  // },
-  // park: {
-  //   types: selectValidator,
-  //   accessibility: selectValidator,
-  // },
-  price: priceValidator,
+  isFree: isFreeValidator,
+  placesDetails: yup.object().when("placesType", {
+    is: "Restaurant",
+    then: yup.object({
+      foodTypes: stringValidator,
+      awards: stringValidator,
+    }),
+    is: "Parc",
+    then: yup.object({
+      types: stringValidator,
+      accessibility: stringValidator,
+      price: numberValidator,
+    }),
+    is: "Musée",
+    then: yup.object({
+      types: stringValidator,
+      artTypes: stringValidator,
+      price: numberValidator,
+    }),
+    is: "Bar",
+    then: yup.object({
+      types: stringValidator,
+    }),
+  }),
 });
 
 const CreatePlacesPage = () => {
   const handleSubmit = async (values, { resetForm }) => {
+    console.log(values);
     await axios.post("http://localhost:3000/api/places", { values });
 
     resetForm();
@@ -234,6 +232,12 @@ const CreatePlacesPage = () => {
               name="isFree"
               placeholder="Gratuit"
               type="checkbox"
+              disabled={
+                values.placesType === "Restaurant" ||
+                values.placesType === "Bar" ||
+                (values.placesType === "Parc" &&
+                  values?.park?.accessibility === "Privé")
+              }
             />
             {!values.isFree && (
               <>

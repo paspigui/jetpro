@@ -47,6 +47,7 @@ export const placeSchema = new Schema({
       return this.isFree === false;
     },
   },
+
   restaurant: {
     foodTypes: {
       type: String,
@@ -116,7 +117,9 @@ export const placeSchema = new Schema({
     required: function () {
       return (
         (this.placesType === "Musée" && this.isFree === false) ||
-        (this.placesType === "Parc" && this.park.accessibility === "Privé")
+        (this.placesType === "Parc" &&
+          this.park.accessibility === "Privé" &&
+          this.isFree === false)
       );
     },
   },
