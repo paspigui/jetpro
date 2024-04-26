@@ -25,6 +25,7 @@ const initialValues = {
   },
   isFree: false,
   averagePrice: "",
+  price: "",
   restaurant: placesType === "Restaurant" && {
     foodTypes: "",
     awards: "",
@@ -32,12 +33,10 @@ const initialValues = {
   park: placesType === "Parc" && {
     types: "",
     accessibility: "",
-    price: "",
   },
   museum: placesType === "Musée" && {
     types: "",
     artTypes: "",
-    price: "",
   },
   bar: placesType === "Bar" && {
     types: "",
@@ -89,7 +88,7 @@ const CreatePlacesPage = () => {
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
-        {({ values, errors }) => (
+        {({ values }) => (
           <Form>
             <FormField
               name="placesType"
@@ -267,9 +266,7 @@ const CreatePlacesPage = () => {
                 )}
               </>
             )}
-            <Button onClick={() => console.log(errors)} type="submit">
-              Créer
-            </Button>
+            <Button type="submit">Créer</Button>
           </Form>
         )}
       </Formik>

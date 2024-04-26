@@ -18,7 +18,17 @@ const PlacesInfoPage = ({ initPlace }) => {
   return (
     <>
       <h1>{place.placesName}</h1>
+      <h2>{place._id}</h2>
       <p>{place.placesType}</p>
+      <p>
+        {place.placesAddress.number} {place.placesAddress.street}
+      </p>
+      <p>
+        {place.placesAddress.zipCode} {place.placesAddress.city}{" "}
+        {place.placesAddress.country}
+      </p>
+      {/* <p>{place.isFree}</p>
+      <p>{place.placesDetails}</p> */}
     </>
   );
 };
