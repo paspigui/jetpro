@@ -10,6 +10,7 @@ import {
   addressValidator,
   numberValidator,
 } from "@/validators";
+import { set } from "mongoose";
 
 const placesType = ["Restaurant", "Musée", "Bar", "Parc"]; // enum in db/schemas/placeSchema.js (faut que je trouve un moyen de l'import)
 
@@ -221,8 +222,8 @@ const CreatePlacesPage = () => {
                   label="Accessibilité"
                 >
                   <option value=""></option>
-                  <option value="Privé">Privé</option>
                   <option value="Public">Public</option>
+                  <option value="Privé">Privé</option>
                 </FormField>
               </>
             )}

@@ -22,9 +22,11 @@ const PlacesInfoPage = ({ initPlace }) => {
       <p>{place.placesType}</p>
       <p>
         {place.placesAddress.number} {place.placesAddress.street}
+        {","}
       </p>
       <p>
-        {place.placesAddress.zipCode} {place.placesAddress.city}{" "}
+        {place.placesAddress.zipCode} {place.placesAddress.city}
+        {", "}
         {place.placesAddress.country}
       </p>
       {/* <p>{place.isFree}</p>

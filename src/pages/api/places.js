@@ -16,7 +16,7 @@ const handle = mw(async (req, res) => {
     const values = req.body.values;
 
     if (!values) {
-      res.status(422).send({ error: "missing description argument" });
+      res.status(422).send({ error: "missing an argument" });
 
       return;
     }

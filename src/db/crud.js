@@ -1,7 +1,7 @@
 import { PlaceModel } from "./models/PlaceModel.js";
 
 export const createPlace = async (values) => {
-  // console.log("CRUD", values);
+  console.log("CRUD", values);
   const newPlace = new PlaceModel(values);
 
   await newPlace.save();
@@ -9,17 +9,19 @@ export const createPlace = async (values) => {
   return newPlace;
 };
 export const readPlaces = async () => await PlaceModel.find();
-export const readPlace = async (placeId) => await PlaceModel.findById(placeId);
-export const updatePlace = async (placeId, values) => {
-  const input = {
-    ...values,
-  };
-  const updatedPlace = await PlaceModel.findByIdAndUpdate(placeId, input, {
-    returnDocument: "after",
-  });
 
+export const readPlace = async (placeId) => await PlaceModel.findById(placeId);
+
+export const updatePlace = async (placeId, values) => {
+  await PlaceModel.replaceOne({ _id: placeId }, { ...values, _id: placeId });
+
+  const updatedPlace = await PlaceModel.findById(placeId);
+  if (!updatedPlace) {
+    return null;
+  }
   return updatedPlace;
 };
+
 export const deletePlace = async (placeId) => {
   const place = await PlaceModel.findOneAndDelete({ _id: placeId });
 
