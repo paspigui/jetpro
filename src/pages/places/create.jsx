@@ -10,7 +10,6 @@ import {
   addressValidator,
   numberValidator,
 } from "@/validators";
-import { set } from "mongoose";
 
 const placesType = ["Restaurant", "Musée", "Bar", "Parc"]; // enum in db/schemas/placeSchema.js (faut que je trouve un moyen de l'import)
 

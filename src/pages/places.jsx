@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
+// import { PopUp } from "@/components/PopUp";
+
 // a finir
 
 export const getServerSideProps = async ({ params }) => {
@@ -17,44 +19,47 @@ export const getServerSideProps = async ({ params }) => {
 const PlacesPage = ({ initialPlaces }) => {
   const [places, setPlaces] = useState(initialPlaces);
   const handleDelete = (placeId) => async () => {
-    const deletedPlace = places.find(({ id }) => id === placeId);
-    const newPlaces = places.filter(({ id }) => id !== placeId);
+    const deletedPlace = places.find(({ _id }) => _id === placeId);
+    const newPlaces = places.filter(({ _id }) => _id !== placeId);
     setPlaces(newPlaces);
 
     try {
       await axios.delete(`http://localhost:3000/api/places/${placeId}`);
     } catch (err) {
+      console.log("err");
       setPlaces([...newPlaces, deletedPlace]);
     }
   };
 
   return (
-    <ul className="flex flex-col gap-4">
-      {places.map(({ _id, placesName }) => (
-        <li key={_id} className="group flex items-center gap-2">
-          <Link href={`/places/${_id}`} className="flex gap-2 py-1">
-            {placesName}{" "}
-          </Link>
-          <Link href={`/places/${_id}/edit`} className="flex gap-2 py-1">
+    <div>
+      <ul className="flex flex-col gap-4">
+        {places.map(({ _id, placesName }) => (
+          <li key={_id} className="group flex items-center gap-2">
+            <Link href={`/places/${_id}`} className="flex gap-2 py-1">
+              {placesName}{" "}
+            </Link>
+            <Link href={`/places/${_id}/edit`} className="flex gap-2 py-1">
+              <Button
+                variant="primary"
+                size="md"
+                className="hidden group-hover:inline"
+              >
+                <FaEdit />
+              </Button>
+            </Link>
             <Button
-              variant="primary"
+              onClick={handleDelete(_id)}
+              variant="danger"
               size="md"
               className="hidden group-hover:inline"
             >
-              <FaEdit />
+              <FaDeleteLeft />
             </Button>
-          </Link>
-          <Button
-            onClick={handleDelete(_id)}
-            variant="danger"
-            size="md"
-            className="hidden group-hover:inline"
-          >
-            <FaDeleteLeft />
-          </Button>
-        </li>
-      ))}
-    </ul>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
