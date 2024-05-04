@@ -1,19 +1,18 @@
-import { Button } from "@/components/Button";
-import { Form } from "@/components/Form";
-import { FormField } from "@/components/FormField";
-import axios from "axios";
-import { Formik } from "formik";
-import * as yup from "yup";
+import { Button } from "@/components/Button"
+import { Form } from "@/components/Form"
+import { FormField } from "@/components/FormField"
+import axios from "axios"
+import { Formik } from "formik"
+import * as yup from "yup"
 import {
   stringValidator,
   isFreeValidator,
   addressValidator,
-  numberValidator,
-} from "@/validators";
+} from "@/validators"
 
-const placesType = ["Restaurant", "Musée", "Bar", "Parc"]; // enum in db/schemas/placeSchema.js (faut que je trouve un moyen de l'import)
-
-const initialValues = {
+export const placesType = ["Restaurant", "Musée", "Bar", "Parc"]
+// enum in db/schemas/placeSchema.js (faut que je trouve un moyen de l'import)
+export const initialValues = {
   placesType: "",
   placesName: "",
   placesAddress: {
@@ -41,45 +40,20 @@ const initialValues = {
   bar: placesType === "Bar" && {
     types: "",
   },
-};
-
+}
 const validationSchema = yup.object({
   placesType: stringValidator,
   placesName: stringValidator,
   placesAddress: addressValidator,
   isFree: isFreeValidator,
-  placesDetails: yup.object().when("placesType", {
-    is: "Restaurant",
-    then: yup.object({
-      foodTypes: stringValidator,
-      awards: stringValidator,
-    }),
-    is: "Parc",
-    then: yup.object({
-      types: stringValidator,
-      accessibility: stringValidator,
-      price: numberValidator,
-    }),
-    is: "Musée",
-    then: yup.object({
-      types: stringValidator,
-      artTypes: stringValidator,
-      price: numberValidator,
-    }),
-    is: "Bar",
-    then: yup.object({
-      types: stringValidator,
-    }),
-  }),
-});
-
+})
 const CreatePlacesPage = () => {
   const handleSubmit = async (values, { resetForm }) => {
-    console.log(values);
-    await axios.post("http://localhost:3000/api/places", { values });
+    console.log("CREATE", values)
+    await axios.post("http://localhost:3000/api/places", { values })
 
-    resetForm();
-  };
+    resetForm()
+  }
 
   return (
     <div>
@@ -271,6 +245,6 @@ const CreatePlacesPage = () => {
         )}
       </Formik>
     </div>
-  );
-};
-export default CreatePlacesPage;
+  )
+}
+export default CreatePlacesPage

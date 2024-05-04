@@ -1,6 +1,6 @@
-import clsx from "clsx";
-import { ErrorMessage, Field } from "formik";
-import { twMerge } from "tailwind-merge";
+import clsx from "clsx"
+import { ErrorMessage, Field } from "formik"
+import { twMerge } from "tailwind-merge"
 
 export const FormField = ({
   className,
@@ -23,4 +23,4 @@ export const FormField = ({
       name={name}
     />
   </label>
-);
+)

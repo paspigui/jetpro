@@ -1,34 +1,34 @@
-import { mw } from "@/api/mw";
-import { createPlace, readPlaces } from "@/db/crud";
+import { mw } from "@/api/mw"
+import { createPlace, readPlaces } from "@/db/crud"
 
 const handle = mw(async (req, res) => {
   if (req.method === "GET") {
-    console.log("API", req.body);
-    const places = await readPlaces();
+    console.log("GetAPI", req.body)
+    const places = await readPlaces()
 
-    res.send(places);
+    res.send(places)
 
-    return;
+    return
   }
 
   if (req.method === "POST") {
-    console.log("API", req.body);
-    const values = req.body.values;
+    const { values } = req.body.trim()
+    console.log("PostAPI", req.body)
 
     if (!values) {
-      res.status(422).send({ error: "missing an argument" });
+      res.status(422).send({ error: "missing an argument" })
 
-      return;
+      return
     }
 
-    const newPlace = await createPlace(values);
+    const newPlace = await createPlace(values)
 
-    res.send(newPlace);
+    res.send(newPlace)
 
-    return;
+    return
   }
 
-  res.status(404).send({ error: "Not found" });
-});
+  res.status(404).send({ error: "Not found" })
+})
 
-export default handle;
+export default handle

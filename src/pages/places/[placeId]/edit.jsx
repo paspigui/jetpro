@@ -1,69 +1,70 @@
-import { useRouter } from "next/router";
-import { Button } from "@/components/Button";
-import { Form } from "@/components/Form";
-import { FormField } from "@/components/FormField";
-import axios from "axios";
-import { Formik } from "formik";
-import * as yup from "yup";
+import { useRouter } from "next/router"
+import { Button } from "@/components/Button"
+import { Form } from "@/components/Form"
+import { FormField } from "@/components/FormField"
+import axios from "axios"
+import { Formik } from "formik"
+import * as yup from "yup"
+import { placesType } from "@/pages/places/create"
 import {
   stringValidator,
   isFreeValidator,
   addressValidator,
-  numberValidator,
-} from "@/validators";
-// import placesType from "@/pages/places/create";
+} from "@/validators"
 
 export const getServerSideProps = async ({ query: { placeId } }) => {
   const { data: place } = await axios(
     `http://localhost:3000/api/places/${placeId}`
-  );
+  )
 
-  return { props: { place } };
-};
+  return { props: { place } }
+}
+const toBeEditedValues = (place) => {
+  const editedValues = {
+    ...place,
+    averagePrice: "",
+    price: "",
+    restaurant: placesType === "Restaurant" && {
+      foodTypes: "",
+      awards: "",
+    },
+    park: placesType === "Parc" && {
+      types: "",
+      accessibility: "",
+    },
+    museum: placesType === "Musée" && {
+      types: "",
+      artTypes: "",
+    },
+    bar: placesType === "Bar" && {
+      types: "",
+    },
+  }
 
+  return editedValues
+}
 const validationSchema = yup.object({
   placesType: stringValidator,
   placesName: stringValidator,
   placesAddress: addressValidator,
   isFree: isFreeValidator,
-  placesDetails: yup.object().when("placesType", {
-    is: "Restaurant",
-    then: yup.object({
-      foodTypes: stringValidator,
-      awards: stringValidator,
-    }),
-    is: "Parc",
-    then: yup.object({
-      types: stringValidator,
-      accessibility: stringValidator,
-      price: numberValidator,
-    }),
-    is: "Musée",
-    then: yup.object({
-      types: stringValidator,
-      artTypes: stringValidator,
-      price: numberValidator,
-    }),
-    is: "Bar",
-    then: yup.object({
-      types: stringValidator,
-    }),
-  }),
-});
-
+})
 const PlaceEditPage = ({ place }) => {
-  const router = useRouter();
-  const initialValues = place;
+  const router = useRouter()
   const handleSubmit = async (values) => {
-    console.log(values);
-    await axios.patch(`http://localhost:3000/api/places/${place._id}`, values);
+    console.log("UPDATE", values)
 
-    router.push("/places");
-  };
+    try {
+      await axios.patch(`http://localhost:3000/api/places/${place._id}`, values)
+      router.push("/places")
+    } catch (err) {
+      console.log("err")
+    }
+  }
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={toBeEditedValues(place)}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
@@ -241,6 +242,6 @@ const PlaceEditPage = ({ place }) => {
         </Form>
       )}
     </Formik>
-  );
-};
-export default PlaceEditPage;
+  )
+}
+export default PlaceEditPage

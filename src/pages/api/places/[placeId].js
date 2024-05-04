@@ -1,52 +1,55 @@
-import { mw } from "@/api/mw";
-import { deletePlace, readPlace, updatePlace } from "@/db/crud";
+import { mw } from "@/api/mw"
+import { deletePlace, readPlace, updatePlace } from "@/db/crud"
 
 const handle = mw(async (req, res) => {
-  const { placeId } = req.query;
+  const { placeId } = req.query
 
   if (req.method === "GET") {
-    const place = await readPlace(placeId);
+    console.log("GetAPI_id", req.body)
+    const place = await readPlace(placeId)
 
     if (!place) {
-      res.status(404).send({ error: "Not found" });
+      res.status(404).send({ error: "Not found" })
 
-      return;
+      return
     }
 
-    res.send(place);
+    res.send(place)
 
-    return;
+    return
   }
 
   if (req.method === "PATCH") {
-    const updatedPlace = await updatePlace(placeId, req.body);
+    console.log("PatchAPI_id", req.body)
+    const updatedPlace = await updatePlace(placeId, req.body)
 
     if (!updatedPlace) {
-      res.status(404).send({ error: "Not found" });
+      res.status(404).send({ error: "Not found" })
 
-      return;
+      return
     }
 
-    res.send(updatedPlace);
+    res.send(updatedPlace)
 
-    return;
+    return
   }
 
   if (req.method === "DELETE") {
-    const placeToBeDelete = await deletePlace(placeId);
+    console.log("DeleteAPI_id", req.body)
+    const placeToBeDelete = await deletePlace(placeId)
 
     if (!placeToBeDelete) {
-      res.status(404).send({ error: "Not found" });
+      res.status(404).send({ error: "Not found" })
 
-      return;
+      return
     }
 
-    res.send(placeToBeDelete);
+    res.send(placeToBeDelete)
 
-    return;
+    return
   }
 
-  res.status(404).send({ error: "Not found" });
-});
+  res.status(404).send({ error: "Not found" })
+})
 
-export default handle;
+export default handle

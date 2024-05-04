@@ -1,34 +1,37 @@
-import { useState } from "react";
-import axios from "axios";
-import { Button } from "@/components/Button";
-import { FaDeleteLeft, FaEdit } from "react-icons/fa";
-import Link from "next/link";
+import { useState } from "react"
+import { useRouter } from "next/router"
+import axios from "axios"
+import { Button } from "@/components/Button"
+import Link from "next/link"
 
 export const getServerSideProps = async ({ params }) => {
   const reponse = await axios(
     `http://localhost:3000/api/places/${params.placeId}`
-  );
-  const initPlace = reponse.data;
+  )
+  const initPlace = reponse.data
+
   return {
     props: { initPlace },
-  };
-};
-
+  }
+}
 const PlacesInfoPage = ({ initPlace }) => {
-  const [place, setPlace] = useState(initPlace);
-  const { _id } = place;
+  const [place, setPlace] = useState(initPlace)
+  const [places, setPlaces] = useState([initPlace])
+  const router = useRouter()
+  const { _id } = place
   const handleDelete = (placeId) => async () => {
-    const deletedPlace = place.find(({ _id }) => _id === placeId);
-    const newPlace = place.filter(({ _id }) => _id !== placeId);
-    setPlace(newPlace);
+    const deletedPlace = places.find(({ _id }) => _id === placeId)
+    const newPlace = places.filter(({ _id }) => _id !== placeId)
+    setPlaces(newPlace)
 
     try {
-      await axios.delete(`http://localhost:3000/api/places/${placeId}`);
+      await axios(`http://localhost:3000/api/places/${placeId}`)
+      router.push("/places")
     } catch (err) {
-      console.log("err");
-      setPlace([...newPlace, deletedPlace]);
+      console.log("err")
+      setPlace([...newPlace, deletedPlace])
     }
-  };
+  }
 
   return (
     <>
@@ -43,7 +46,7 @@ const PlacesInfoPage = ({ initPlace }) => {
       )}
       {place.placesType === "Parc" && (
         <>
-          <p>Type de park : {place.park.types}</p>
+          <p>Type de parc : {place.park.types}</p>
           <p>Accessibilité du parc : {place.park.accessibility}</p>
         </>
       )}
@@ -65,27 +68,38 @@ const PlacesInfoPage = ({ initPlace }) => {
         {place.placesAddress.country}
       </p>
       <p>{place.isFree ? "Gratuit" : "Payant"}</p>
-      <p>Prix moyen (1-5) : {place.averagePrice}</p>
-      <p>Prix : {place.price} €</p>
-      {/* <Link href={`/places/${_id}/edit`} className="flex gap-2 py-1">
-        <Button
-          variant="primary"
-          size="md"
-          className="hidden group-hover:inline"
-        >
-          <FaEdit />
-        </Button>
-      </Link>
-      <Button
-        onClick={handleDelete(_id)}
-        variant="danger"
-        size="md"
-        className="hidden group-hover:inline"
-      >
-        <FaDeleteLeft />
-      </Button> */}
-    </>
-  );
-};
 
-export default PlacesInfoPage;
+      {place.isFree === false && (
+        <>
+          <p>Prix moyen (1-5): {place.averagePrice}</p>
+          {((place.placesType === "Musée" && !place.isFree) ||
+            (place.placesType === "Parc" &&
+              place.park?.accessibility === "Privé")) && (
+            <p>Prix : {place.price} €</p>
+          )}
+        </>
+      )}
+      <div className="flex items-center gap-2 mx-1">
+        <Link href={`/places/${_id}/edit`} className="flex gap-2 ">
+          <Button
+            variant="primary"
+            size="md"
+            className=" rounded group-hover:inline"
+          >
+            EDIT
+          </Button>
+        </Link>
+        <Button
+          onClick={handleDelete(_id)}
+          variant="danger"
+          size="md"
+          className=" rounded group-hover:inline"
+        >
+          DELETE
+        </Button>
+      </div>
+    </>
+  )
+}
+
+export default PlacesInfoPage
