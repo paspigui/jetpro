@@ -2,16 +2,11 @@ import "@/styles/globals.css"
 import Link from "next/link"
 import Image from "next/image"
 import Head from "next/head"
-// A finir
 
 const App = ({ Component, pageProps }) => (
   <main className="flex flex-col">
     <Head>
       <title>The best places</title>
-      <meta
-        name="description"
-        content="Découvrez les meilleurs endroits à visiter dans le monde entier."
-      />
     </Head>
     <header className="border-b-2 border-b-stone-200 bg-stone-100">
       <div className="p-4 flex justify-between items-center">

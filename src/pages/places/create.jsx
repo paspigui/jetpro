@@ -11,7 +11,7 @@ import {
 } from "@/validators"
 
 export const placesType = ["Restaurant", "Musée", "Bar", "Parc"]
-// enum in db/schemas/placeSchema.js (faut que je trouve un moyen de l'import)
+
 export const initialValues = {
   placesType: "",
   placesName: "",
