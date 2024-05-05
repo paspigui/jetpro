@@ -1,10 +1,6 @@
 import { Schema } from "mongoose"
 
 export const placeSchema = new Schema({
-  // timestamps: {
-  //   createdAt: ,
-  //   updatedAt: Date.now(),
-  // },
   placesType: {
     type: String,
     enum: ["Restaurant", "Musée", "Bar", "Parc"],
