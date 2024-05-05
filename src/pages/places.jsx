@@ -1,7 +1,7 @@
 import { Button } from "@/components/Button"
 import axios from "axios"
 import Link from "next/link"
-import { useState, useEffect, use } from "react"
+import { useState, useEffect } from "react"
 import { FaDeleteLeft } from "react-icons/fa6"
 import { FaEdit } from "react-icons/fa"
 import { placesType } from "@/pages/places/create"
@@ -17,7 +17,13 @@ export const getServerSideProps = async () => {
 const PlacesPage = ({ initialPlaces }) => {
   const [places, setPlaces] = useState(initialPlaces)
   const [selectedType, setSelectedType] = useState("")
-  const [selectedSubFilter, setSelectedSubFilter] = useState("")
+  const [foodTypesFilter, setFoodTypesFilter] = useState("")
+  const [awardsFilter, setAwardsFilter] = useState("")
+  const [museumTypesFilter, setMuseumTypesFilter] = useState("")
+  const [museumArtTypesFilter, setMuseumArtTypesFilter] = useState("")
+  const [barTypesFilter, setBarTypesFilter] = useState("")
+  const [parkTypesFilter, setParkTypesFilter] = useState("")
+  const [parkAccessibilityFilter, setParkAccessibilityFilter] = useState("")
   const handleDelete = (placeId) => async () => {
     const deletedPlace = places.find(({ _id }) => _id === placeId)
     const newPlaces = places.filter(({ _id }) => _id !== placeId)
@@ -43,26 +49,81 @@ const PlacesPage = ({ initialPlaces }) => {
   }, [selectedType, initialPlaces])
 
   useEffect(() => {
-    if (selectedSubFilter) {
-      const filteredPlacesSub = initialPlaces.filter(
-        (place) => place.restaurant?.foodTypes === selectedSubFilter
+    if (foodTypesFilter) {
+      const filteredPlaces = initialPlaces.filter(
+        (place) => place.restaurant?.foodTypes === foodTypesFilter
       )
-      setPlaces(filteredPlacesSub)
+      setPlaces(filteredPlaces)
     } else {
       setPlaces(initialPlaces)
     }
-  }, [selectedSubFilter, initialPlaces])
+  }, [foodTypesFilter, initialPlaces])
 
   useEffect(() => {
-    if (selectedSubFilter) {
-      const filteredPlacesSub = initialPlaces.filter(
-        (place) => place.museum?.types === selectedSubFilter
+    if (awardsFilter) {
+      const filteredPlaces = initialPlaces.filter(
+        (place) => place.restaurant?.awards === awardsFilter
       )
-      setPlaces(filteredPlacesSub)
+      setPlaces(filteredPlaces)
     } else {
       setPlaces(initialPlaces)
     }
-  }, [selectedSubFilter, initialPlaces])
+  }, [awardsFilter, initialPlaces])
+
+  useEffect(() => {
+    if (museumTypesFilter) {
+      const filteredPlaces = initialPlaces.filter(
+        (place) => place.museum?.types === museumTypesFilter
+      )
+      setPlaces(filteredPlaces)
+    } else {
+      setPlaces(initialPlaces)
+    }
+  }, [museumTypesFilter, initialPlaces])
+
+  useEffect(() => {
+    if (museumArtTypesFilter) {
+      const filteredPlaces = initialPlaces.filter(
+        (place) => place.museum?.artTypes === museumArtTypesFilter
+      )
+      setPlaces(filteredPlaces)
+    } else {
+      setPlaces(initialPlaces)
+    }
+  }, [museumArtTypesFilter, initialPlaces])
+
+  useEffect(() => {
+    if (barTypesFilter) {
+      const filteredPlaces = initialPlaces.filter(
+        (place) => place.bar?.types === barTypesFilter
+      )
+      setPlaces(filteredPlaces)
+    } else {
+      setPlaces(initialPlaces)
+    }
+  }, [barTypesFilter, initialPlaces])
+
+  useEffect(() => {
+    if (parkTypesFilter) {
+      const filteredPlaces = initialPlaces.filter(
+        (place) => place.park?.types === parkTypesFilter
+      )
+      setPlaces(filteredPlaces)
+    } else {
+      setPlaces(initialPlaces)
+    }
+  }, [parkTypesFilter, initialPlaces])
+
+  useEffect(() => {
+    if (parkAccessibilityFilter) {
+      const filteredPlaces = initialPlaces.filter(
+        (place) => place.park?.accessibility === parkAccessibilityFilter
+      )
+      setPlaces(filteredPlaces)
+    } else {
+      setPlaces(initialPlaces)
+    }
+  }, [parkAccessibilityFilter, initialPlaces])
 
   return (
     <>
@@ -84,8 +145,8 @@ const PlacesPage = ({ initialPlaces }) => {
           <>
             <select
               className="mt-4 w-full p-2 border rounded-md ml-2"
-              value={selectedSubFilter}
-              onChange={(e) => setSelectedSubFilter(e.target.value)}
+              value={foodTypesFilter}
+              onChange={(e) => setFoodTypesFilter(e.target.value)}
             >
               <option value="">Tous</option>
               <option value="Français">Français</option>
@@ -98,14 +159,14 @@ const PlacesPage = ({ initialPlaces }) => {
 
             <select
               className="mt-4 w-full p-2 border rounded-md ml-2"
-              value={selectedSubFilter}
-              onChange={(e) => setSelectedSubFilter(e.target.value)}
+              value={awardsFilter}
+              onChange={(e) => setAwardsFilter(e.target.value)}
             >
               <option value="">Tous</option>
               <option value="0">Non-étoilé</option>
-              <option value="1">1 étoile</option>
-              <option value="2">2 étoiles</option>
-              <option value="3">3 étoiles</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
             </select>
           </>
         )}
@@ -113,8 +174,8 @@ const PlacesPage = ({ initialPlaces }) => {
           <>
             <select
               className="mt-4 w-full p-2 border rounded-md ml-2"
-              value={selectedSubFilter}
-              onChange={(e) => setSelectedSubFilter(e.target.value)}
+              value={museumTypesFilter}
+              onChange={(e) => setMuseumTypesFilter(e.target.value)}
             >
               <option value="">Tous</option>
               <option value="Histoire">Histoire</option>
@@ -125,8 +186,8 @@ const PlacesPage = ({ initialPlaces }) => {
             </select>
             <select
               className="mt-4 w-full p-2 border rounded-md ml-2"
-              value={selectedSubFilter}
-              onChange={(e) => setSelectedSubFilter(e.target.value)}
+              value={museumArtTypesFilter}
+              onChange={(e) => setMuseumArtTypesFilter(e.target.value)}
             >
               <option value="">Tous</option>
               <option value="Peinture">Peinture</option>
@@ -140,8 +201,8 @@ const PlacesPage = ({ initialPlaces }) => {
           <>
             <select
               className="mt-4 w-full p-2 border rounded-md ml-2"
-              value={selectedSubFilter}
-              onChange={(e) => setSelectedSubFilter(e.target.value)}
+              value={barTypesFilter}
+              onChange={(e) => setBarTypesFilter(e.target.value)}
             >
               <option value="">Tous</option>
               <option value="Pub">Pub</option>
@@ -155,8 +216,8 @@ const PlacesPage = ({ initialPlaces }) => {
           <>
             <select
               className="mt-4 w-full p-2 border rounded-md ml-2"
-              value={selectedSubFilter}
-              onChange={(e) => setSelectedSubFilter(e.target.value)}
+              value={parkTypesFilter}
+              onChange={(e) => setParkTypesFilter(e.target.value)}
             >
               <option value="">Tous</option>
               <option value="Municipal">Municipal</option>
@@ -167,8 +228,8 @@ const PlacesPage = ({ initialPlaces }) => {
             </select>
             <select
               className="mt-4 w-full p-2 border rounded-md ml-2"
-              value={selectedSubFilter}
-              onChange={(e) => setSelectedSubFilter(e.target.value)}
+              value={parkAccessibilityFilter}
+              onChange={(e) => setParkAccessibilityFilter(e.target.value)}
             >
               <option value="">Tous</option>
               <option value="Privé">Privé</option>
