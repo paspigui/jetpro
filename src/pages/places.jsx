@@ -2,8 +2,6 @@ import { Button } from "@/components/Button"
 import axios from "axios"
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import { FaDeleteLeft } from "react-icons/fa6"
-import { FaEdit } from "react-icons/fa"
 import { placesType } from "@/pages/places/create"
 
 export const getServerSideProps = async () => {
@@ -253,32 +251,35 @@ const PlacesPage = ({ initialPlaces }) => {
         <p className="text-red-500">Aucun établissement trouvé</p>
       )}
 
-      <ul className="flex flex-col gap-4">
-        {places.map(({ _id, placesName, placesType }) => (
-          <li key={_id} className="group flex items-center gap-2">
+      <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {places.map((place) => (
+          <li key={place._id} className="bg-white p-4 rounded shadow">
             <Link
-              href={`/places/${_id}`}
-              className="flex gap-2 py-1 hover:underline"
+              href={`/places/${place._id}`}
+              className="text-lg font-bold mb-2 hover:underline"
             >
-              {placesName} <p className=" font-thin">{placesType}</p>
+              {place.placesName}
             </Link>
-            <Link href={`/places/${_id}/edit`} className="flex gap-2 py-1">
+            <p className="text-gray-500">{place.placesType}</p>
+            <div className="flex items-center gap-2 ">
+              <Link href={`/places/${place._id}/edit`} className="flex gap-2 ">
+                <Button
+                  variant="primary"
+                  size="md"
+                  className=" rounded group-hover:inline"
+                >
+                  EDIT
+                </Button>
+              </Link>
               <Button
-                variant="primary"
+                onClick={handleDelete(place._id)}
+                variant="danger"
                 size="md"
-                className="hidden group-hover:inline"
+                className=" rounded group-hover:inline"
               >
-                <FaEdit />
+                DELETE
               </Button>
-            </Link>
-            <Button
-              onClick={handleDelete(_id)}
-              variant="danger"
-              size="md"
-              className="hidden group-hover:inline"
-            >
-              <FaDeleteLeft />
-            </Button>
+            </div>
           </li>
         ))}
       </ul>

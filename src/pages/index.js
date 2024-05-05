@@ -1,48 +1,3 @@
-// import axios from "axios"
-// import { useState } from "react"
-// // A finir
-
-// export const getServerSideProps = async ({ params }) => {
-//   const response = await axios(
-//     `http://localhost:3000/api/places/${params.placeId}`
-//   )
-//   const initialPlace = response.data
-
-//   return {
-//     props: { initialPlace },
-//   }
-// }
-// export default function Home({ initialPlace }) {
-//   const [place, setPlace] = useState(initialPlace)
-
-//   return (
-//     <div>
-//       <h1 className="text-center">
-//         Bienvenue sur{" "}
-//         <mark className="px-2 text-white bg-blue-600 rounded dark:bg-blue-500">
-//           THE BEST PLACES
-//         </mark>
-//       </h1>
-//       <p className="py-4">
-//         Découvrez les meilleurs endroits à visiter dans le monde entier.
-//       </p>
-//       <p className="py-4">
-//         <mark className="px-2 text-white bg-blue-600 rounded dark:bg-blue-500">
-//           THE BEST PLACES
-//         </mark>{" "}
-//         est une application web qui vous permet de créer, modifier et supprimer
-//         des lieux à visiter.
-//       </p>
-//       <p>Voici les dernieres places ajoutées</p>
-//       <ul className="flex flex-col gap-4">
-//         <li key={place._id} className="group flex items-center gap-2">
-//           <h2>{place.placesName}</h2>
-//           <p>{place.placesType}</p>
-//         </li>
-//       </ul>
-//     </div>
-//   )
-// }
 import axios from "axios"
 import Link from "next/link"
 import { useEffect, useState } from "react"
@@ -64,33 +19,33 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <h1 className="text-center">
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold text-center mb-8">
         Bienvenue sur{" "}
-        <mark className="px-2 text-white bg-blue-600 rounded dark:bg-blue-500">
+        <span className="px-2 text-white bg-blue-600 rounded dark:bg-blue-500">
           THE BEST PLACES
-        </mark>
+        </span>
       </h1>
-      <p className="py-4">
+      <p className="text-center mb-8">
         Découvrez les meilleurs endroits à visiter dans le monde entier.
       </p>
-      <p className="py-4">
-        <mark className="px-2 text-white bg-blue-600 rounded dark:bg-blue-500">
-          THE BEST PLACES
-        </mark>{" "}
-        est une application web qui vous permet de créer, modifier et supprimer
-        des lieux à visiter.
+      <p className="text-center mb-8">
+        The best places est une application web qui vous permet de créer,
+        modifier et supprimer des lieux à visiter.
       </p>
-      <p className=" py-4">Voici les dernières places ajoutées :</p>
-      <ul className="flex flex-col gap-4">
+      <h2 className="text-2xl font-bold mb-4">
+        Voici les dernières places ajoutées :
+      </h2>
+      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {places.map((place) => (
-          <li key={place._id} className="group flex items-center gap-2">
+          <li key={place._id} className="bg-white p-4 rounded shadow">
+            <h3 className="text-lg font-bold mb-2">{place.placesName}</h3>
+            <p className="text-gray-500">{place.placesType}</p>
             <Link
+              className=" no-underline hover:underline"
               href={`/places/${place._id}`}
-              className="flex gap-2 py-1 hover:underline"
             >
-              <h1>{place.placesName}</h1>{" "}
-              <p className=" font-thin">{place.placesType}</p>
+              Voir plus
             </Link>
           </li>
         ))}

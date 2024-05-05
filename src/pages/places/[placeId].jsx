@@ -79,7 +79,7 @@ const PlacesInfoPage = ({ initPlace }) => {
           )}
         </>
       )}
-      <div className="flex items-center gap-2 mx-1">
+      <div className="flex items-center gap-2">
         <Link href={`/places/${_id}/edit`} className="flex gap-2 ">
           <Button
             variant="primary"
